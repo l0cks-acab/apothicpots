@@ -3,7 +3,6 @@ package com.lach.spawnerpots;
 import com.mojang.serialization.MapCodec;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import net.darkhax.botanypots.common.api.context.BlockEntityContext;
@@ -11,7 +10,6 @@ import net.darkhax.botanypots.common.api.context.BotanyPotContext;
 import net.darkhax.botanypots.common.api.data.display.types.Display;
 import net.darkhax.botanypots.common.api.data.recipes.CacheableRecipe;
 import net.darkhax.botanypots.common.api.data.recipes.crop.Crop;
-import net.darkhax.botanypots.common.impl.data.display.types.EntityDisplayState;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -24,7 +22,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
@@ -41,7 +38,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
 
 /** One dynamic Botany Pots crop that accepts any spawner item carrying a mob. */
 public class SpawnerCrop extends Crop implements CacheableRecipe {
@@ -133,13 +129,7 @@ public class SpawnerCrop extends Crop implements CacheableRecipe {
         SpawnerInfo info = SpawnerInfo.of(context.getSeedItem());
         if (info == null) return List.of();
         if (displays.size() > 256) displays.clear();
-        return displays.computeIfAbsent(info.entityTag(), tag -> {
-            EntityDimensions dims = info.type().getDimensions();
-            // Fit roughly a 0.8 wide x 1.1 tall box above the soil.
-            float s = Math.min(0.6f, Math.min(0.8f / Math.max(0.1f, dims.width()), 1.1f / Math.max(0.1f, dims.height())));
-            // BP draws entities from the pot floor; lift onto the soil (offset is in scaled units).
-            return List.of(new EntityDisplayState(tag.copy(), true, 1, new Vector3f(s, s, s), Optional.of(new Vector3f(0f, 0.4f / s, 0f))));
-        });
+        return displays.computeIfAbsent(info.entityTag(), tag -> List.of(new SpawnerDisplay(tag.copy())));
     }
 
     @Override

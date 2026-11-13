@@ -7,7 +7,7 @@ NeoForge 1.21.1 addon for Botany Pots and Apothic Spawners. Put a spawner item i
 - Soil: soul sand or soul soil (item tag `spawnerpots:spawner_soils`).
 - Each grow cycle is one "spawn": the mob's loot table is rolled as if a player killed it. No looting.
 - Hopper pots auto-collect. Botany Pots growth/yield modifiers, pot types and harvest tools apply as normal.
-- The mob is shown standing in the pot.
+- A mini spawner cage sits in the pot with the mob spinning inside (custom Botany Pots display `spawnerpots:spawner`).
 
 ## Spawner stats
 | Stat | Effect in the pot |
