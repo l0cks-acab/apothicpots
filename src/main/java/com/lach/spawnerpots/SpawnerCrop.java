@@ -135,8 +135,8 @@ public class SpawnerCrop extends Crop implements CacheableRecipe {
         if (displays.size() > 256) displays.clear();
         return displays.computeIfAbsent(info.entityTag(), tag -> {
             EntityDimensions dims = info.type().getDimensions();
-            float size = Math.max(dims.width(), dims.height());
-            float s = Math.min(0.6f, 0.75f / Math.max(0.1f, size));
+            // Fit roughly a 0.8 wide x 1.1 tall box above the soil.
+            float s = Math.min(0.6f, Math.min(0.8f / Math.max(0.1f, dims.width()), 1.1f / Math.max(0.1f, dims.height())));
             // BP draws entities from the pot floor; lift onto the soil (offset is in scaled units).
             return List.of(new EntityDisplayState(tag.copy(), true, 1, new Vector3f(s, s, s), Optional.of(new Vector3f(0f, 0.4f / s, 0f))));
         });
