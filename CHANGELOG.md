@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.3
+- Mod logo in the mods list.
+
 ## 0.1.2
 - The spawner itself now sits in the pot: a mini spawner cage on the soil with the mob spinning inside, like a placed spawner.
 

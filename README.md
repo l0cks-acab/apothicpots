@@ -1,3 +1,5 @@
+![Spawner Pots](docs/banner.png)
+
 # Spawner Pots
 
 NeoForge 1.21.1 addon for Botany Pots and Apothic Spawners. Put a spawner item in a Botany Pot and it produces that mob's loot over time.
@@ -8,6 +10,8 @@ NeoForge 1.21.1 addon for Botany Pots and Apothic Spawners. Put a spawner item i
 - Each grow cycle is one "spawn": the mob's loot table is rolled as if a player killed it. No looting.
 - Hopper pots auto-collect. Botany Pots growth/yield modifiers, pot types and harvest tools apply as normal.
 - A mini spawner cage sits in the pot with the mob spinning inside (custom Botany Pots display `spawnerpots:spawner`).
+
+![A spawner in a pot](docs/02-spawner-in-a-pot.png)
 
 ## Spawner stats
 | Stat | Effect in the pot |
@@ -34,3 +38,11 @@ Rolls per cycle are capped by `maxRollsPerCycle`.
 
 ## Requires
 Botany Pots 21.1.41+ (with Bookshelf, Prickle) and Apothic Spawners 1.3+ (with Placebo).
+
+## Performance
+Mean server tick time with zombie spawners on stock stats (dedicated server, chunks force-loaded). Benchmark script: `tools/bench.py`, raw numbers: `docs/performance-results.json`.
+
+![Performance](docs/performance.png)
+
+## Listing art
+`python3 tools/listing.py <shots> <out> <ascii.png> docs/performance-results.json <block textures>` (font and textures from the vanilla client jar).
