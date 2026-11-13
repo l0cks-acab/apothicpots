@@ -2,7 +2,7 @@
 
 # Spawner Pots
 
-NeoForge 1.21.1 addon for Botany Pots and Apothic Spawners. Put a spawner item in a Botany Pot and it produces that mob's loot over time.
+NeoForge 1.21.1 addon for Botany Pots and Apothic Spawners. Put a spawner in a Botany Pot and it grows that mob's loot.
 
 ## How it works
 - Silk touch a spawner (Apothic Spawners keeps its mob and stats on the item) and put it in a pot's crop slot.

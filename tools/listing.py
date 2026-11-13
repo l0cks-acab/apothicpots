@@ -211,10 +211,15 @@ def banner(ic):
     st.putalpha(m.point(lambda v: int(v * 0.85)))
     c.alpha_composite(st, (BW - st.width, (BH - st.height) // 2))
     embers(c, 90, 5)
-    c.alpha_composite(ic.resize((330, 330), Image.LANCZOS), (50, 35))
-    brand(c, (404, 96), 11, radius=24, strength=220)
-    mc_text(c, (406, 230), 'Spawners in pots. Loot, no mobs.', 4, fill=TEXT)
-    chips(c, 408, 300)
+    # SPAWNER (logo) POTS, centred
+    sc, gap, isz = 11, 26, 300
+    w1, w2 = mc_width('SPAWNER', sc, True), mc_width('POTS', sc, True)
+    total = w1 + gap + isz + gap + w2
+    x0 = (BW - total) // 2
+    ty = (BH - 9 * sc) // 2 + 4
+    mc_text(c, (x0, ty), 'SPAWNER', sc, fill=CRIMSON_HI, bold=True, glow=CRIMSON, radius=24, strength=220)
+    c.alpha_composite(ic.resize((isz, isz), Image.LANCZOS), (x0 + w1 + gap, (BH - isz) // 2))
+    mc_text(c, (x0 + w1 + gap + isz + gap, ty), 'POTS', sc, fill=(255, 255, 255), bold=True, glow=CRIMSON, radius=24, strength=220)
     save(c, 'banner.png')
 
 
@@ -223,13 +228,13 @@ def perf_chart():
     d = json.load(open(PERF))
     m = {(r['kind'], r['n']): statistics.mean(r['ms']) for r in d}
     base = m[('baseline', 0)]
-    series = [('spawner_idle', 'Spawners, mobs alive', (57, 135, 229)),
-              ('spawner_kill', 'Spawners, instant kill farm', (217, 89, 38)),
+    series = [('spawner_idle', 'Spawners, mobs left alive', (57, 135, 229)),
+              ('spawner_kill', 'Spawners, mobs killed instantly', (217, 89, 38)),
               ('pots', 'Spawner Pots', (25, 158, 112))]
     ns = [16, 64, 256]
-    c = bg(shot('room_wide.png'), (W, 820))
-    mc_text(c, (70, 46), 'Light on the server', 6, fill=(255, 255, 255), bold=True, glow=CRIMSON, radius=14, strength=190)
-    mc_text(c, (72, 112), 'Mean tick time (MSPT, ms). Lower is better. Zombie spawners, stock stats.', 2, fill=MUTED)
+    c = bg(shot('room_hrbs.png'), (W, 820))
+    mc_text(c, (70, 46), 'Performance', 6, fill=(255, 255, 255), bold=True, glow=CRIMSON, radius=14, strength=190)
+    mc_text(c, (72, 112), 'Average server tick time (ms), lower is better. Zombie spawners, stock stats.', 2, fill=MUTED)
     px0, py0, px1, py1 = 150, 190, 1210, 680
     panel = Image.new('RGBA', c.size, (0, 0, 0, 0))
     ImageDraw.Draw(panel).rectangle([px0 - 70, py0 - 30, px1 + 30, py1 + 70], fill=(10, 4, 6, 200))
@@ -271,26 +276,25 @@ def perf_chart():
 # ---------- gallery ----------
 def gallery():
     pages = [
-        ('01-spawner-pots.png', 'room_hrbs.png', 'SPAWNER POTS', ['Put an Apothic spawner in a', 'Botany Pot. It drops that', "mob's loot. No mobs needed."], None),
-        ('02-spawner-in-a-pot.png', 'closeup.png', 'In the pot', ['Silk touch a spawner and sit', 'it on soul sand or soul soil.', 'The mob spins in its cage.'], None),
-        ('03-stats-carry-over.png', 'tooltip.png', 'Stats carry over', ['Delay sets the cycle. Spawn', 'count and echoing add loot', 'rolls. Burning cooks drops.', 'Redstone control needs power.'], (150, 60, 760, 330)),
-        ('04-into-a-chest.png', 'chest.png', 'Into a chest', ['Hopper pots push loot down.', 'Player-only drops, like', 'wither skulls, still roll.'], (150, 40, 760, 260)),
-        ('05-factory-floor.png', 'room_wide.png', 'Factory floor', ['Line them up next to the', 'rest of your machines.'], None),
+        ('01-spawner-pots.png', 'room_hrbs.png', 'SPAWNER POTS', ['Grow mob loot from Apothic', 'spawners in Botany Pots.'], None),
+        ('02-spawner-in-a-pot.png', 'closeup.png', 'Spawner in a pot', ['Silk touch a spawner and', 'place it in a pot on soul', 'sand or soul soil.'], None),
+        ('03-spawner-stats.png', 'tooltip.png', 'Spawner stats', ['Delay sets the grow time.', 'Spawn count and echoing', 'add loot rolls. Burning', 'cooks the drops. Redstone', 'control needs power.'], (150, 60, 760, 330)),
+        ('04-hopper-pots.png', 'chest.png', 'Hopper pots', ['Hopper pots move the loot', 'into a chest below. Player', 'kill drops still drop.'], (150, 40, 760, 260)),
     ]
     for name, src, title, lines, crop in pages:
         img = shot(src)
         c = bg(img)
-        y = text_block(c, 70, 180 if len(lines) < 4 else 160, title, lines, 6, 3)
+        y = text_block(c, 70, 200 if len(lines) < 4 else 160, title, lines, 6, 3)
         if name.startswith('01'):
             chips(c, 72, y + 16)
         win = window(img, 600 if crop else 620, crop)
         place(c, win, W - win.width - 60, (H - win.height) // 2)
         save(c, name)
     p = perf_chart().resize((W, round(820 * W / W)))
-    c = bg(shot('room_wide.png'))
+    c = bg(shot('room_hrbs.png'))
     win = window(p.convert('RGB'), 1120)
     place(c, win, (W - win.width) // 2, (H - win.height) // 2, glow=None)
-    save(c, '06-performance.png')
+    save(c, '05-performance.png')
 
 
 ic = icon()
