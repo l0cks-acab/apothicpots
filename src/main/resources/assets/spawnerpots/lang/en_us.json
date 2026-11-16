@@ -1,8 +1,0 @@
-{
-  "tooltip.spawnerpots.mob": "Mob: %s",
-  "tooltip.spawnerpots.cycle": "Cycle: %s",
-  "tooltip.spawnerpots.rolls": "Loot rolls per cycle: %s",
-  "tooltip.spawnerpots.burning": "Burning: drops come out cooked",
-  "tooltip.spawnerpots.redstone": "Redstone control: needs power",
-  "tooltip.spawnerpots.wrong_soil": "Needs soul sand or soul soil"
-}

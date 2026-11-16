@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.0
+- Renamed to Apothic Pots (mod id `apothicpots`). Recipe, tags, config file (`config/apothicpots-common.toml`) and display ids moved to the new namespace.
+
 ## 0.1.3
 - Mod logo in the mods list.
 

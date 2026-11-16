@@ -1,4 +1,4 @@
-"""Spawner Pots CurseForge / README art: icon, banner, gallery, perf chart.
+"""Apothic Pots CurseForge / README art: icon, banner, gallery, perf chart.
 python3 tools/listing.py <shots_dir> <out_dir> <ascii.png> <perf results.json> <block textures dir>\nascii.png and block textures come from the vanilla client jar (assets/minecraft/textures).
 Text uses the vanilla Minecraft font (like the Apothic Spawners page), demonic crimson theme."""
 import json, math, os, random, statistics, sys
@@ -119,12 +119,12 @@ def chips(canvas, x, y):
 
 def brand(canvas, xy, scale, radius=18, strength=210):
     x, y = xy
-    x = mc_text(canvas, (x, y), 'SPAWNER', scale, fill=CRIMSON_HI, bold=True, glow=CRIMSON, radius=radius, strength=strength)
+    x = mc_text(canvas, (x, y), 'APOTHIC', scale, fill=CRIMSON_HI, bold=True, glow=CRIMSON, radius=radius, strength=strength)
     mc_text(canvas, (x + 4 * scale, y), 'POTS', scale, fill=(255, 255, 255), bold=True, glow=CRIMSON, radius=radius, strength=strength)
 
 
 def text_block(canvas, x, y, title, lines, tscale=7, bscale=3):
-    if title == 'SPAWNER POTS':
+    if title == 'APOTHIC POTS':
         brand(canvas, (x, y), tscale)
     else:
         mc_text(canvas, (x, y), title, tscale, fill=(255, 255, 255), bold=True, glow=CRIMSON, radius=14, strength=190)
@@ -211,13 +211,13 @@ def banner(ic):
     st.putalpha(m.point(lambda v: int(v * 0.85)))
     c.alpha_composite(st, (BW - st.width, (BH - st.height) // 2))
     embers(c, 90, 5)
-    # SPAWNER (logo) POTS, centred
+    # APOTHIC (logo) POTS, centred
     sc, gap, isz = 11, 26, 300
-    w1, w2 = mc_width('SPAWNER', sc, True), mc_width('POTS', sc, True)
+    w1, w2 = mc_width('APOTHIC', sc, True), mc_width('POTS', sc, True)
     total = w1 + gap + isz + gap + w2
     x0 = (BW - total) // 2
     ty = (BH - 9 * sc) // 2 + 4
-    mc_text(c, (x0, ty), 'SPAWNER', sc, fill=CRIMSON_HI, bold=True, glow=CRIMSON, radius=24, strength=220)
+    mc_text(c, (x0, ty), 'APOTHIC', sc, fill=CRIMSON_HI, bold=True, glow=CRIMSON, radius=24, strength=220)
     c.alpha_composite(ic.resize((isz, isz), Image.LANCZOS), (x0 + w1 + gap, (BH - isz) // 2))
     mc_text(c, (x0 + w1 + gap + isz + gap, ty), 'POTS', sc, fill=(255, 255, 255), bold=True, glow=CRIMSON, radius=24, strength=220)
     save(c, 'banner.png')
@@ -230,7 +230,7 @@ def perf_chart():
     base = m[('baseline', 0)]
     series = [('spawner_idle', 'Spawners, mobs left alive', (57, 135, 229)),
               ('spawner_kill', 'Spawners, mobs killed instantly', (217, 89, 38)),
-              ('pots', 'Spawner Pots', (25, 158, 112))]
+              ('pots', 'Apothic Pots', (25, 158, 112))]
     ns = [16, 64, 256]
     c = bg(shot('room_hrbs.png'), (W, 820))
     mc_text(c, (70, 46), 'Performance', 6, fill=(255, 255, 255), bold=True, glow=CRIMSON, radius=14, strength=190)
@@ -276,7 +276,7 @@ def perf_chart():
 # ---------- gallery ----------
 def gallery():
     pages = [
-        ('01-spawner-pots.png', 'room_hrbs.png', 'SPAWNER POTS', ['Grow mob loot from Apothic', 'spawners in Botany Pots.'], None),
+        ('01-apothic-pots.png', 'room_hrbs.png', 'APOTHIC POTS', ['Grow mob loot from Apothic', 'spawners in Botany Pots.'], None),
         ('02-spawner-in-a-pot.png', 'closeup.png', 'Spawner in a pot', ['Silk touch a spawner and', 'place it in a pot on soul', 'sand or soul soil.'], None),
         ('03-spawner-stats.png', 'tooltip.png', 'Spawner stats', ['Delay sets the grow time.', 'Spawn count and echoing', 'add loot rolls. Burning', 'cooks the drops. Redstone', 'control needs power.'], (150, 60, 760, 330)),
         ('04-hopper-pots.png', 'chest.png', 'Hopper pots', ['Hopper pots move the loot', 'into a chest below. Player', 'kill drops still drop.'], (150, 40, 760, 260)),

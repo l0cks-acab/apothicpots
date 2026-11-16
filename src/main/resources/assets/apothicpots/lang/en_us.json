@@ -1,0 +1,8 @@
+{
+  "tooltip.apothicpots.mob": "Mob: %s",
+  "tooltip.apothicpots.cycle": "Cycle: %s",
+  "tooltip.apothicpots.rolls": "Loot rolls per cycle: %s",
+  "tooltip.apothicpots.burning": "Burning: drops come out cooked",
+  "tooltip.apothicpots.redstone": "Redstone control: needs power",
+  "tooltip.apothicpots.wrong_soil": "Needs soul sand or soul soil"
+}

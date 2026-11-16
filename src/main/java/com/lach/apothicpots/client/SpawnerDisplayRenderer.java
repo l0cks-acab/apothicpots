@@ -1,6 +1,6 @@
-package com.lach.spawnerpots.client;
+package com.lach.apothicpots.client;
 
-import com.lach.spawnerpots.SpawnerDisplay;
+import com.lach.apothicpots.SpawnerDisplay;
 import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.HashMap;
 import java.util.Map;

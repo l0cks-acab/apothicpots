@@ -1,4 +1,4 @@
-package com.lach.spawnerpots;
+package com.lach.apothicpots;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -10,15 +10,15 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-@Mod(SpawnerPots.MODID)
-public class SpawnerPots {
-    public static final String MODID = "spawnerpots";
+@Mod(ApothicPots.MODID)
+public class ApothicPots {
+    public static final String MODID = "apothicpots";
 
     public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, MODID);
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<SpawnerCrop>> SPAWNER_CROP =
             SERIALIZERS.register("spawner_crop", () -> SpawnerCrop.SERIALIZER);
 
-    public SpawnerPots(IEventBus modBus, ModContainer container) {
+    public ApothicPots(IEventBus modBus, ModContainer container) {
         SERIALIZERS.register(modBus);
         container.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }

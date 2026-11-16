@@ -1,4 +1,4 @@
-package com.lach.spawnerpots;
+package com.lach.apothicpots;
 
 import com.mojang.serialization.MapCodec;
 import java.util.List;
@@ -48,7 +48,7 @@ public class SpawnerCrop extends Crop implements CacheableRecipe {
         @Override public @NotNull MapCodec<SpawnerCrop> codec() { return CODEC; }
         @Override public @NotNull StreamCodec<RegistryFriendlyByteBuf, SpawnerCrop> streamCodec() { return STREAM; }
     };
-    public static final TagKey<Item> SOILS = TagKey.create(Registries.ITEM, SpawnerPots.id("spawner_soils"));
+    public static final TagKey<Item> SOILS = TagKey.create(Registries.ITEM, ApothicPots.id("spawner_soils"));
 
     private final Map<CompoundTag, List<Display>> displays = new ConcurrentHashMap<>();
 
@@ -138,13 +138,13 @@ public class SpawnerCrop extends Crop implements CacheableRecipe {
         if (info == null) return;
         float tickrate = level.tickRateManager().tickrate();
         int ticks = stack == context.getSeedItem() && context.getRequiredGrowthTicks() > 0 ? context.getRequiredGrowthTicks() : info.cycleTicks();
-        lines.accept(Component.translatable("tooltip.spawnerpots.mob", info.type().getDescription()).withStyle(ChatFormatting.GRAY));
-        lines.accept(Component.translatable("tooltip.spawnerpots.cycle", StringUtil.formatTickDuration(ticks, tickrate)).withStyle(ChatFormatting.GRAY));
-        lines.accept(Component.translatable("tooltip.spawnerpots.rolls", info.rollsPerCycle()).withStyle(ChatFormatting.GRAY));
-        if (info.burning()) lines.accept(Component.translatable("tooltip.spawnerpots.burning").withStyle(ChatFormatting.GOLD));
-        if (info.redstone()) lines.accept(Component.translatable("tooltip.spawnerpots.redstone").withStyle(ChatFormatting.RED));
+        lines.accept(Component.translatable("tooltip.apothicpots.mob", info.type().getDescription()).withStyle(ChatFormatting.GRAY));
+        lines.accept(Component.translatable("tooltip.apothicpots.cycle", StringUtil.formatTickDuration(ticks, tickrate)).withStyle(ChatFormatting.GRAY));
+        lines.accept(Component.translatable("tooltip.apothicpots.rolls", info.rollsPerCycle()).withStyle(ChatFormatting.GRAY));
+        if (info.burning()) lines.accept(Component.translatable("tooltip.apothicpots.burning").withStyle(ChatFormatting.GOLD));
+        if (info.redstone()) lines.accept(Component.translatable("tooltip.apothicpots.redstone").withStyle(ChatFormatting.RED));
         if (!context.getSoilItem().isEmpty() && !context.getSoilItem().is(SOILS)) {
-            lines.accept(Component.translatable("tooltip.spawnerpots.wrong_soil").withStyle(ChatFormatting.RED));
+            lines.accept(Component.translatable("tooltip.apothicpots.wrong_soil").withStyle(ChatFormatting.RED));
         }
     }
 

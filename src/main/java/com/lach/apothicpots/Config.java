@@ -1,4 +1,4 @@
-package com.lach.spawnerpots;
+package com.lach.apothicpots;
 
 import net.neoforged.neoforge.common.ModConfigSpec;
 

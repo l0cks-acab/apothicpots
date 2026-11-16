@@ -1,4 +1,4 @@
-package com.lach.spawnerpots;
+package com.lach.apothicpots;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 public record SpawnerInfo(EntityType<?> type, CompoundTag entityTag, int minDelay, int maxDelay, int spawnCount,
                           boolean redstone, boolean burning, int echoing) {
 
-    public static final TagKey<EntityType<?>> BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, SpawnerPots.id("blacklist"));
+    public static final TagKey<EntityType<?>> BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, ApothicPots.id("blacklist"));
     public static final TagKey<EntityType<?>> AS_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE,
             ResourceLocation.fromNamespaceAndPath("apothic_spawners", "blacklisted_from_spawners"));
     private static final String STAT = "apothic_spawners:";
