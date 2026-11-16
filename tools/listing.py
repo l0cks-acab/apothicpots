@@ -281,14 +281,24 @@ def gallery():
         ('03-spawner-stats.png', 'tooltip.png', 'Spawner stats', ['Delay sets the grow time.', 'Spawn count and echoing', 'add loot rolls. Burning', 'cooks the drops. Redstone', 'control needs power.'], (150, 60, 760, 330)),
         ('04-hopper-pots.png', 'chest.png', 'Hopper pots', ['Hopper pots move the loot', 'into a chest below. Player', 'kill drops still drop.'], (150, 40, 760, 260)),
     ]
+    # one title size for every page: the largest that fits beside every screenshot
+    TS = 6
+    while TS > 3 and any(mc_width(t, TS, True) > W - (560 if cr else 580) - 60 - 110 for _, _, t, _, cr in pages):
+        TS -= 1
     for name, src, title, lines, crop in pages:
         img = shot(src)
         c = bg(img)
-        y = text_block(c, 70, 200 if len(lines) < 4 else 160, title, lines, 6, 3)
+        win = window(img, 560 if crop else 580, crop)
+        wx = W - win.width - 60
+        # title shrinks until it fits left of the screenshot; body lines must fit too
+        room = wx - 70 - 40
+        ts = TS
+        assert mc_width(title, ts, True) <= room, (name, room)
+        assert all(mc_width(ln, 3) <= room for ln in lines), (name, room)
+        y = text_block(c, 70, 200 if len(lines) < 4 else 160, title, lines, ts, 3)
         if name.startswith('01'):
             chips(c, 72, y + 16)
-        win = window(img, 600 if crop else 620, crop)
-        place(c, win, W - win.width - 60, (H - win.height) // 2)
+        place(c, win, wx, (H - win.height) // 2)
         save(c, name)
     p = perf_chart().resize((W, round(820 * W / W)))
     c = bg(shot('room_hrbs.png'))
