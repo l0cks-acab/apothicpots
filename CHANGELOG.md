@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0
+- Right-click a spawner pot with a spawn egg to change the mob, like a placed spawner. The spawner keeps its stats and the egg is used up (not in creative).
+- Works on boxed spawners too: the spawner comes out of the box and you get the box back.
+- Blacklisted mobs can't be set with an egg.
+
 ## 0.3.0
 - Mekanism cardboard box support. Right-click a pot with a boxed spawner, or place it in the pot's crop slot, and the spawner is taken out of the box and put in the pot. The empty box goes back to the player.
 - A boxed spawner inserted by a hopper stays boxed and still grows.

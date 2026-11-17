@@ -54,7 +54,7 @@ public final class BoxUnpacker {
         }
     }
 
-    private static void giveBack(Player player, ItemStack box) {
+    static void giveBack(Player player, ItemStack box) {
         if (box.isEmpty()) return;
         if (!player.getInventory().add(box)) player.drop(box, false);
     }
