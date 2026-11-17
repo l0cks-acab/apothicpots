@@ -24,10 +24,16 @@ public record SpawnerInfo(EntityType<?> type, CompoundTag entityTag, int minDela
 
     @Nullable
     public static SpawnerInfo of(ItemStack stack) {
-        if (stack.isEmpty() || !stack.is(Items.SPAWNER)) return null;
-        CustomData data = stack.get(DataComponents.BLOCK_ENTITY_DATA);
-        if (data == null) return null;
-        CompoundTag tag = data.copyTag();
+        if (stack.isEmpty()) return null;
+        CompoundTag tag;
+        if (stack.is(Items.SPAWNER)) {
+            CustomData data = stack.get(DataComponents.BLOCK_ENTITY_DATA);
+            if (data == null) return null;
+            tag = data.copyTag();
+        } else {
+            tag = MekBox.spawnerTag(stack);
+            if (tag == null) return null;
+        }
         CompoundTag entity = tag.getCompound("SpawnData").getCompound("entity");
         if (!entity.contains("id", Tag.TAG_STRING)) return null;
         ResourceLocation id = ResourceLocation.tryParse(entity.getString("id"));

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0
+- Mekanism cardboard box support. Right-click a pot with a boxed spawner, or place it in the pot's crop slot, and the spawner is taken out of the box and put in the pot. The empty box goes back to the player.
+- A boxed spawner inserted by a hopper stays boxed and still grows.
+- Mekanism is optional.
+
 ## 0.2.0
 - Renamed to Apothic Pots (mod id `apothicpots`). Recipe, tags, config file (`config/apothicpots-common.toml`) and display ids moved to the new namespace.
 

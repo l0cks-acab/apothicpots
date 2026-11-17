@@ -6,6 +6,7 @@ NeoForge 1.21.1 addon for Botany Pots and Apothic Spawners. Put a spawner in a B
 
 ## How it works
 - Silk touch a spawner (Apothic Spawners keeps its mob and stats on the item) and put it in a pot's crop slot.
+- Mekanism cardboard box works too: right-click a pot with a boxed spawner, or put it in the pot's crop slot, and the spawner comes out of the box into the pot. You get the empty box back. A boxed spawner fed in by a hopper stays boxed and still grows.
 - Soil: soul sand or soul soil (item tag `apothicpots:spawner_soils`).
 - Each grow cycle is one "spawn": the mob's loot table is rolled as if a player killed it. No looting.
 - Hopper pots auto-collect. Botany Pots growth/yield modifiers, pot types and harvest tools apply as normal.
@@ -37,7 +38,7 @@ Rolls per cycle are capped by `maxRollsPerCycle`.
 - The crop is the recipe `apothicpots:spawner` (`{"type":"apothicpots:spawner_crop"}`). Remove it with a datapack to turn the feature off.
 
 ## Requires
-Botany Pots 21.1.41+ (with Bookshelf, Prickle) and Apothic Spawners 1.3+ (with Placebo).
+Botany Pots 21.1.41+ (with Bookshelf, Prickle) and Apothic Spawners 1.3+ (with Placebo). Mekanism is optional (cardboard box support).
 
 ## Performance
 Mean server tick time with zombie spawners on stock stats (dedicated server, chunks force-loaded). Benchmark script: `tools/bench.py`, raw numbers: `docs/performance-results.json`.

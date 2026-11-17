@@ -66,8 +66,10 @@ public class SpawnerCrop extends Crop implements CacheableRecipe {
 
     @Override public boolean canBeCached() { return true; }
 
-    /** Cache key is the plain item; the data check happens in couldMatch. */
-    @Override public boolean isCacheKey(ItemStack stack) { return stack.is(net.minecraft.world.item.Items.SPAWNER); }
+    /** Cache key is the plain item (or a Mekanism cardboard box); the data check happens in couldMatch. */
+    @Override public boolean isCacheKey(ItemStack stack) {
+        return stack.is(net.minecraft.world.item.Items.SPAWNER) || MekBox.isBox(stack);
+    }
 
     @Override
     public int getRequiredGrowthTicks(BotanyPotContext context, Level level) {
