@@ -278,8 +278,10 @@ def gallery():
     pages = [
         ('01-apothic-pots.png', 'room_hrbs.png', 'APOTHIC POTS', ['Grow mob loot from Apothic', 'spawners in Botany Pots.'], None),
         ('02-spawner-in-a-pot.png', 'closeup.png', 'Spawner in a pot', ['Silk touch a spawner and', 'place it in a pot on soul', 'sand or soul soil.'], None),
-        ('03-spawner-stats.png', 'tooltip.png', 'Spawner stats', ['Delay sets the grow time.', 'Spawn count and echoing', 'add loot rolls. Burning', 'cooks the drops. Redstone', 'control needs power.'], (150, 60, 760, 330)),
+        ('03-spawner-stats.png', 'jade.png', 'Spawner stats', ['Look at a pot with Jade', 'or WTHIT to see the mob,', 'its stats, progress and', 'stored XP.'], (330, 100, 760, 330)),
         ('04-hopper-pots.png', 'chest.png', 'Hopper pots', ['Hopper pots move the loot', 'into a chest below. Player', 'kill drops still drop.'], (150, 40, 760, 260)),
+        ('05-xp-bar.png', 'xpbar.png', 'XP bar', ['Each kill\'s XP is stored', 'in the pot. One click', 'takes it all, or pipe it', 'out as XP fluid.'], (195, 70, 615, 440)),
+        ('06-jei.png', 'jei.png', 'JEI', ['Every mob gets a page', 'with its drops, average', 'per kill and grow time.'], (262, 222, 592, 380)),
     ]
     # one title size for every page: the largest that fits beside every screenshot
     TS = 6
@@ -304,7 +306,7 @@ def gallery():
     c = bg(shot('room_hrbs.png'))
     win = window(p.convert('RGB'), 1120)
     place(c, win, (W - win.width) // 2, (H - win.height) // 2, glow=None)
-    save(c, '05-performance.png')
+    save(c, '07-performance.png')
 
 
 ic = icon()
