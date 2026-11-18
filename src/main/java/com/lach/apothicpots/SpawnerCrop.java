@@ -81,8 +81,10 @@ public class SpawnerCrop extends Crop implements CacheableRecipe {
     public boolean isGrowthSustained(BotanyPotContext context, Level level) {
         SpawnerInfo info = SpawnerInfo.of(context.getSeedItem());
         if (info == null || !context.getSoilItem().is(SOILS)) return false;
-        if (info.redstone() && context instanceof BlockEntityContext be) {
-            return level.hasNeighborSignal(be.pot().getBlockPos());
+        if (context instanceof BlockEntityContext be) {
+            boolean powered = level.hasNeighborSignal(be.pot().getBlockPos());
+            if (info.redstone()) return powered;
+            if (powered && Config.REDSTONE_PAUSE.get()) return false;
         }
         return true;
     }
@@ -104,8 +106,12 @@ public class SpawnerCrop extends Crop implements CacheableRecipe {
             FakePlayer killer = Config.PLAYER_KILL.get() ? FakePlayerFactory.getMinecraft(server) : null;
             DamageSource source = killer != null ? server.damageSources().playerAttack(killer) : server.damageSources().generic();
             LootTable table = server.getServer().reloadableRegistries().getLootTable(living.getLootTable());
-            int rolls = info.rollsPerCycle();
+            int rolls = info.rollsPerCycle(server.random);
             int xp = 0;
+            // Sword (or any tool) in the pot's harvest slot is the weapon: looting and other kill enchants apply.
+            ItemStack weapon = context.getHarvestItem().copy();
+            ItemStack heldBefore = killer != null ? killer.getMainHandItem() : ItemStack.EMPTY;
+            if (killer != null) killer.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, weapon);
             for (int i = 0; i < rolls; i++) {
                 LootParams.Builder params = new LootParams.Builder(server)
                         .withParameter(LootContextParams.THIS_ENTITY, living)
@@ -115,11 +121,13 @@ public class SpawnerCrop extends Crop implements CacheableRecipe {
                         .withOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, killer);
                 if (killer != null) params.withParameter(LootContextParams.LAST_DAMAGE_PLAYER, killer).withLuck(killer.getLuck());
                 table.getRandomItems(params.create(LootContextParamSets.ENTITY), drops);
-                if (Config.DROP_XP.get() && living instanceof Mob) xp += living.getExperienceReward(server, killer);
+                if (Config.XP_OUTPUT.get() != Config.XpOutput.OFF && living instanceof Mob) xp += living.getExperienceReward(server, killer);
             }
+            if (killer != null) killer.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, heldBefore);
             if (xp > 0 && context instanceof BlockEntityContext be) {
                 BlockPos pos = be.pot().getBlockPos();
-                ExperienceOrb.award(server, Vec3.atCenterOf(pos.above()), xp);
+                if (Config.XP_OUTPUT.get() == Config.XpOutput.STORE) PotXp.add(be.pot(), xp);
+                else ExperienceOrb.award(server, Vec3.atCenterOf(pos.above()), xp);
             }
         } finally {
             living.discard();
@@ -142,12 +150,16 @@ public class SpawnerCrop extends Crop implements CacheableRecipe {
         int ticks = stack == context.getSeedItem() && context.getRequiredGrowthTicks() > 0 ? context.getRequiredGrowthTicks() : info.cycleTicks();
         lines.accept(Component.translatable("tooltip.apothicpots.mob", info.type().getDescription()).withStyle(ChatFormatting.GRAY));
         lines.accept(Component.translatable("tooltip.apothicpots.cycle", StringUtil.formatTickDuration(ticks, tickrate)).withStyle(ChatFormatting.GRAY));
-        lines.accept(Component.translatable("tooltip.apothicpots.rolls", info.rollsPerCycle()).withStyle(ChatFormatting.GRAY));
+        lines.accept(Component.translatable("tooltip.apothicpots.rolls", fmt(info.rollsPerCycleExact())).withStyle(ChatFormatting.GRAY));
         if (info.burning()) lines.accept(Component.translatable("tooltip.apothicpots.burning").withStyle(ChatFormatting.GOLD));
         if (info.redstone()) lines.accept(Component.translatable("tooltip.apothicpots.redstone").withStyle(ChatFormatting.RED));
         if (!context.getSoilItem().isEmpty() && !context.getSoilItem().is(SOILS)) {
             lines.accept(Component.translatable("tooltip.apothicpots.wrong_soil").withStyle(ChatFormatting.RED));
         }
+    }
+
+    public static String fmt(double d) {
+        return d == Math.rint(d) ? Integer.toString((int) d) : String.format(java.util.Locale.ROOT, "%.1f", d);
     }
 
     @Override

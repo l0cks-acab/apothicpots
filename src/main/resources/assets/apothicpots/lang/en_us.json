@@ -2,7 +2,18 @@
   "tooltip.apothicpots.mob": "Mob: %s",
   "tooltip.apothicpots.cycle": "Cycle: %s",
   "tooltip.apothicpots.rolls": "Loot rolls per cycle: %s",
+  "tooltip.apothicpots.echoing": "Echoing: %s",
   "tooltip.apothicpots.burning": "Burning: drops come out cooked",
   "tooltip.apothicpots.redstone": "Redstone control: needs power",
-  "tooltip.apothicpots.wrong_soil": "Needs soul sand or soul soil"
+  "tooltip.apothicpots.wrong_soil": "Needs soul sand or soul soil",
+  "tooltip.apothicpots.progress": "Progress: %s%%",
+  "tooltip.apothicpots.paused": "Paused",
+  "tooltip.apothicpots.xp": "Stored XP: %s (level %s)",
+  "gui.apothicpots.xp": "%s XP (level %s)",
+  "gui.apothicpots.xp_collect": "Click to collect it all",
+  "gui.apothicpots.xp_empty": "Empty",
+  "jei.apothicpots.spawner_pot": "Spawner Pot",
+  "jei.apothicpots.per_kill": "Average %s per kill",
+  "jei.apothicpots.summary": "%s · %s kills · %s XP",
+  "config.jade.plugin_apothicpots.spawner_pot": "Spawner Pot"
 }

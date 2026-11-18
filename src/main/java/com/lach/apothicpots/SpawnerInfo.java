@@ -49,13 +49,36 @@ public record SpawnerInfo(EntityType<?> type, CompoundTag entityTag, int minDela
                 Math.max(0, stats.getInt(STAT + "echoing")));
     }
 
+    /** A spawner as it comes out of the world: 200-800 delay, 4 per spawn, no stats. */
+    public static SpawnerInfo stock(EntityType<?> type) {
+        CompoundTag entity = new CompoundTag();
+        entity.putString("id", BuiltInRegistries.ENTITY_TYPE.getKey(type).toString());
+        return new SpawnerInfo(type, entity, 200, 800, 4, false, false, 0);
+    }
+
+    public static int stockCycleTicks() {
+        return stock(net.minecraft.world.entity.EntityType.PIG).cycleTicks();
+    }
+
     public int cycleTicks() {
         double avg = (minDelay + Math.max(minDelay, maxDelay)) / 2.0;
         return Math.max(Config.MIN_TICKS.get(), (int) Math.round(avg / Config.SPEED.get()));
     }
 
+    /** Average loot rolls per cycle after multipliers, capped. */
+    public double rollsPerCycleExact() {
+        double rolls = (double) spawnCount * (1L + echoing) * Config.mobMultiplier(type);
+        return Math.min(Config.MAX_ROLLS.get(), rolls);
+    }
+
+    /** Whole rolls for one cycle; the fraction rolls by chance. */
+    public int rollsPerCycle(net.minecraft.util.RandomSource random) {
+        double exact = rollsPerCycleExact();
+        int whole = (int) exact;
+        return whole + (random.nextDouble() < exact - whole ? 1 : 0);
+    }
+
     public int rollsPerCycle() {
-        long rolls = (long) spawnCount * (1L + echoing);
-        return (int) Math.min(Config.MAX_ROLLS.get(), rolls);
+        return (int) Math.round(rollsPerCycleExact());
     }
 }

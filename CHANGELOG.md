@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0
+- XP: each kill's XP is stored in the pot. Open the pot and click the XP bar on the left to collect it all in one go.
+- XP can be piped out as XP fluid (any fluid in `c:experience`: Mob Grinding Utils, Ender IO, Sophisticated Core and others). Config can switch to orbs or turn XP off.
+- Sword slot: swords go in the pot's tool slot. Looting and other kill enchants apply and the sword wears down over time.
+- Redstone signal pauses a pot. Spawners with Apothic redstone control still need power to run.
+- Jade and WTHIT: mob, spawner stats, progress and stored XP when you look at a pot.
+- JEI: Spawner Pot page for each mob with its drops, average per kill, grow time and XP.
+- Config: global drop multiplier and per-mob multipliers for packmakers. `dropXp` is replaced by `xpOutput`.
+
 ## 0.4.0
 - Right-click a spawner pot with a spawn egg to change the mob, like a placed spawner. The spawner keeps its stats and the egg is used up (not in creative).
 - Works on boxed spawners too: the spawner comes out of the box and you get the box back.

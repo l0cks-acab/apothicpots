@@ -1,0 +1,10 @@
+{
+  "apothicpots:spawner_pot": {
+    "entrypoints": {
+      "common": "com.lach.apothicpots.compat.WthitPlugin",
+      "client": "com.lach.apothicpots.compat.WthitPlugin"
+    },
+    "side": "*",
+    "required": ["apothicpots", "botanypots"]
+  }
+}

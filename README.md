@@ -11,6 +11,10 @@ NeoForge 1.21.1 addon for Botany Pots and Apothic Spawners. Put a spawner in a B
 - Soil: soul sand or soul soil (item tag `apothicpots:spawner_soils`).
 - Each grow cycle is one "spawn": the mob's loot table is rolled as if a player killed it. No looting.
 - Hopper pots auto-collect. Botany Pots growth/yield modifiers, pot types and harvest tools apply as normal.
+- Put a sword in the pot's tool slot: looting and other kill enchants apply, and the sword wears down like a hoe does.
+- XP from each kill is stored in the pot. Open the pot and click the XP bar on the left to take it all at once, or pipe it out as XP fluid (any fluid in `c:experience`, e.g. Mob Grinding Utils, Ender IO, Sophisticated Core).
+- A redstone signal pauses a pot. Spawners with Apothic redstone control work the other way and only run while powered.
+- Jade and WTHIT show the mob, spawner stats, progress and stored XP. JEI has a Spawner Pot page per mob with its drops, average per kill and grow time.
 - A mini spawner cage sits in the pot with the mob spinning inside (custom Botany Pots display `apothicpots:spawner`).
 
 ![A spawner in a pot](docs/02-spawner-in-a-pot.png)
@@ -32,7 +36,13 @@ Rolls per cycle are capped by `maxRollsPerCycle`.
 - `maxRollsPerCycle` (8)
 - `minCycleTicks` (20)
 - `playerKillDrops` (true): fake-player kill so player-only drops can roll
-- `dropXp` (false): drop the mob's XP at the pot
+- `xpOutput` (STORE): STORE keeps XP in the pot, ORBS drops orbs, OFF gives none
+- `xpCapacity` (10000): most XP points one pot holds
+- `mbPerXp` (20): XP fluid per point when piping
+- `xpFluid` (""): XP fluid id; empty = first fluid in `c:experience`
+- `redstonePauses` (true): a redstone signal pauses a pot
+- `dropMultiplier` (1.0): loot roll multiplier for every mob
+- `mobMultipliers` ([]): per-mob loot roll multipliers, e.g. `["minecraft:wither_skeleton=0.5"]`
 
 ## Data
 - Blacklist: entity tag `apothicpots:blacklist` (wither, ender dragon, warden, elder guardian by default). Apothic's `apothic_spawners:blacklisted_from_spawners` is also respected.

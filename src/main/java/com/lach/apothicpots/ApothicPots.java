@@ -20,6 +20,8 @@ public class ApothicPots {
 
     public ApothicPots(IEventBus modBus, ModContainer container) {
         SERIALIZERS.register(modBus);
+        PotXp.init(modBus);
+        Net.init(modBus);
         container.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 

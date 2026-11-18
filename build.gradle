@@ -61,6 +61,9 @@ dependencies {
     implementation "maven.modrinth:prickle:${prickle_version}"
     implementation "maven.modrinth:apothic-spawners:${apothic_spawners_version}"
     implementation "maven.modrinth:placebo:${placebo_version}"
+    compileOnly "maven.modrinth:jade:${jade_version}"
+    compileOnly "maven.modrinth:wthit:${wthit_version}"
+    compileOnly "maven.modrinth:jei:${jei_version}"
 }
 
 var generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
