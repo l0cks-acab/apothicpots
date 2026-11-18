@@ -31,10 +31,11 @@ public final class EggSwap {
         if (!(egg.getItem() instanceof SpawnEggItem eggItem)) return;
         if (!(event.getLevel().getBlockEntity(event.getPos()) instanceof AbstractBotanyPotBlockEntity pot)) return;
         ItemStack seed = pot.getSeedItem();
+        // Any spawner works, including an empty one with no mob yet (e.g. from the creative menu).
+        if (!seed.is(net.minecraft.world.item.Items.SPAWNER) && MekBox.spawnerTag(seed) == null) return;
         SpawnerInfo info = SpawnerInfo.of(seed);
-        if (info == null) return;
         EntityType<?> type = eggItem.getType(egg);
-        if (type == info.type() || type.is(SpawnerInfo.BLACKLIST) || type.is(SpawnerInfo.AS_BLACKLIST)) return;
+        if ((info != null && type == info.type()) || type.is(SpawnerInfo.BLACKLIST) || type.is(SpawnerInfo.AS_BLACKLIST)) return;
         event.setCanceled(true);
         event.setCancellationResult(InteractionResult.sidedSuccess(event.getLevel().isClientSide));
         if (event.getLevel().isClientSide) return;

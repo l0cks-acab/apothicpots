@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.1
+- Spawn eggs now work on an empty spawner in a pot (one with no mob yet, like a spawner from the creative menu).
+
 ## 0.5.0
 - XP: each kill's XP is stored in the pot. Open the pot and click the XP bar on the left to collect it all in one go.
 - XP can be piped out as XP fluid (any fluid in `c:experience`: Mob Grinding Utils, Ender IO, Sophisticated Core and others). Config can switch to orbs or turn XP off.
