@@ -1,6 +1,7 @@
 package com.lach.apothicpots.client;
 
 import com.lach.apothicpots.SpawnerDisplay;
+import com.lach.apothicpots.SpawnerInfo;
 import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,8 +40,12 @@ public class SpawnerDisplayRenderer extends DisplayRenderer<SpawnerDisplay> {
         Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.SPAWNER.defaultBlockState(), pose, buffers, light, overlay);
         Entity entity = entity(level, display.entity());
         if (entity != null) {
-            double spin = (level.getGameTime() % 24000L) * SPIN_PER_TICK;
-            SpawnerRenderer.renderEntityInSpawner(tickDelta, pose, buffers, light, entity, context.getEntityRenderer(), spin - SPIN_PER_TICK, spin);
+            // Paused pots keep the cage but the mob stops spinning.
+            SpawnerInfo info = pot != null ? SpawnerInfo.of(pot.getSeedItem()) : null;
+            boolean paused = info != null && com.lach.apothicpots.SpawnerCrop.isPaused(info, level, pos);
+            double spin = paused ? (pos.asLong() % 360L) : (level.getGameTime() % 24000L) * SPIN_PER_TICK;
+            SpawnerRenderer.renderEntityInSpawner(paused ? 0f : tickDelta, pose, buffers, light, entity, context.getEntityRenderer(),
+                    paused ? spin : spin - SPIN_PER_TICK, spin);
         }
         pose.popPose();
         return heightOffset + CAGE;

@@ -44,6 +44,9 @@ public final class PotLines {
                 }
             }
         }
+        else if (pot.getSeedItem().is(net.minecraft.world.item.Items.SPAWNER)) {
+            out.add(Component.translatable("tooltip.apothicpots.no_mob").withStyle(ChatFormatting.RED));
+        }
         if (xp > 0) out.add(Component.translatable("tooltip.apothicpots.xp", xp, XpMath.levels(xp)).withStyle(ChatFormatting.GREEN));
         return out;
     }

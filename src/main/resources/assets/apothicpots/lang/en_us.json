@@ -15,5 +15,6 @@
   "jei.apothicpots.spawner_pot": "Spawner Pot",
   "jei.apothicpots.per_kill": "Average %s per kill",
   "jei.apothicpots.summary": "%s · %s kills · %s XP",
-  "config.jade.plugin_apothicpots.spawner_pot": "Spawner Pot"
+  "config.jade.plugin_apothicpots.spawner_pot": "Spawner Pot",
+  "tooltip.apothicpots.no_mob": "No mob: use a spawn egg on the pot"
 }

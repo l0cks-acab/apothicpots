@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.2
+- A spawner with no mob in a pot now says to use a spawn egg on the pot (pot screen tooltip, Jade and WTHIT).
+- A pot paused by redstone keeps showing its spawner cage. The mob inside stops spinning while paused.
+
 ## 0.5.1
 - Spawn eggs now work on an empty spawner in a pot (one with no mob yet, like a spawner from the creative menu).
 

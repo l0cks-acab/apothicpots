@@ -81,12 +81,16 @@ public class SpawnerCrop extends Crop implements CacheableRecipe {
     public boolean isGrowthSustained(BotanyPotContext context, Level level) {
         SpawnerInfo info = SpawnerInfo.of(context.getSeedItem());
         if (info == null || !context.getSoilItem().is(SOILS)) return false;
-        if (context instanceof BlockEntityContext be) {
-            boolean powered = level.hasNeighborSignal(be.pot().getBlockPos());
-            if (info.redstone()) return powered;
-            if (powered && Config.REDSTONE_PAUSE.get()) return false;
-        }
-        return true;
+        // Client: Botany Pots only draws growing crops, so keep the cage drawn; the renderer freezes it when paused.
+        if (level.isClientSide) return true;
+        return !(context instanceof BlockEntityContext be && isPaused(info, level, be.pot().getBlockPos()));
+    }
+
+    /** Redstone state: paused by a signal, or a redstone-control spawner without one. */
+    public static boolean isPaused(SpawnerInfo info, Level level, BlockPos pos) {
+        boolean powered = level.hasNeighborSignal(pos);
+        if (info.redstone()) return !powered;
+        return powered && Config.REDSTONE_PAUSE.get();
     }
 
     @Override
