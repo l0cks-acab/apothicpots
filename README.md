@@ -13,7 +13,7 @@ NeoForge 1.21.1 addon for Botany Pots and Apothic Spawners. Put a spawner in a B
 - Hopper pots auto-collect. Botany Pots growth/yield modifiers, pot types and harvest tools apply as normal.
 - Put a sword in the pot's tool slot: looting and other kill enchants apply, and the sword wears down like a hoe does.
 - XP from each kill is stored in the pot. Open the pot and click the XP bar on the left to take it all at once, or pipe it out as XP fluid (any fluid in `c:experience`, e.g. Mob Grinding Utils, Ender IO, Sophisticated Core).
-- A redstone signal pauses a pot. Spawners with Apothic redstone control work the other way and only run while powered.
+- A redstone signal pauses a pot. Pots with an Apothic redstone-control spawner get an on/off lever in the pot screen instead; an outside redstone signal flips that lever too (signal on = on, signal off = off).
 - Jade and WTHIT show the mob, spawner stats, progress and stored XP. JEI has a Spawner Pot page per mob with its drops, average per kill and grow time.
 - A mini spawner cage sits in the pot with the mob spinning inside (custom Botany Pots display `apothicpots:spawner`).
 

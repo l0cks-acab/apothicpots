@@ -47,14 +47,80 @@ public final class XpBar {
         return xp.pos().equals(pot.getBlockPos()) ? xp.xp() : 0;
     }
 
+    private static final int LW = 22, LH = 30;
+
     private static int left(BotanyPotScreen s) { return s.getGuiLeft() - W + 1; }
+    private static int leverTop(BotanyPotScreen s) { return top(s) + H + 3; }
+
+    private static boolean hasLever(AbstractBotanyPotBlockEntity pot) {
+        SpawnerInfo info = SpawnerInfo.of(pot.getSeedItem());
+        return info != null && info.redstone();
+    }
+
+    private static boolean switchOn(AbstractBotanyPotBlockEntity pot) {
+        Net.XpSync sync = Net.clientXp;
+        return sync.pos().equals(pot.getBlockPos()) ? sync.switchOn() : com.lach.apothicpots.PotXp.switchOn(pot);
+    }
+
+    private static boolean insideLever(BotanyPotScreen s, double mx, double my) {
+        int x = left(s), y = leverTop(s);
+        return mx >= x && mx < x + LW - 1 && my >= y && my < y + LH;
+    }
+
+    private static void panel(GuiGraphics g, int x, int y, int w, int h) {
+        g.fill(x, y, x + w, y + h, 0xFF000000);
+        g.fill(x + 1, y + 1, x + w, y + h - 1, 0xFFC6C6C6);
+        g.fill(x + 1, y + 1, x + w - 1, y + 2, 0xFFFFFFFF);
+        g.fill(x + 1, y + 1, x + 2, y + h - 1, 0xFFFFFFFF);
+        g.fill(x + 2, y + h - 2, x + w, y + h - 1, 0xFF555555);
+    }
+
+    /** Lever tab: a lever with a lamp, lit while on. */
+    private static void renderLever(GuiGraphics g, BotanyPotScreen screen, AbstractBotanyPotBlockEntity pot, int mx, int my) {
+        int x = left(screen), y = leverTop(screen);
+        boolean on = switchOn(pot);
+        g.pose().pushPose();
+        g.pose().translate(0, 0, 200);
+        panel(g, x, y, LW, LH);
+        // The vanilla lever, flipped to match the state.
+        var state = net.minecraft.world.level.block.Blocks.LEVER.defaultBlockState()
+                .setValue(net.minecraft.world.level.block.LeverBlock.FACE, net.minecraft.world.level.block.state.properties.AttachFace.FLOOR)
+                .setValue(net.minecraft.world.level.block.LeverBlock.FACING, net.minecraft.core.Direction.NORTH)
+                .setValue(net.minecraft.world.level.block.LeverBlock.POWERED, on);
+        g.pose().pushPose();
+        g.pose().translate(x + 11, y + 7, 100);
+        g.pose().scale(18, -18, 18);
+        g.pose().mulPose(com.mojang.math.Axis.XP.rotationDegrees(25));
+        g.pose().mulPose(com.mojang.math.Axis.YP.rotationDegrees(90));
+        g.pose().translate(-0.5, -0.5, -0.5);
+        com.mojang.blaze3d.platform.Lighting.setupFor3DItems();
+        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(state, g.pose(), g.bufferSource(), 0xF000F0,
+                net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY);
+        g.flush();
+        com.mojang.blaze3d.platform.Lighting.setupForFlatItems();
+        g.pose().popPose();
+        var font = Minecraft.getInstance().font;
+        String label = on ? "ON" : "OFF";
+        g.drawString(font, label, x + (LW - font.width(label)) / 2 + 1, y + LH - 10, on ? 0xFFE02020 : 0xFF404040, false);
+        g.pose().popPose();
+        if (insideLever(screen, mx, my)) {
+            List<Component> tip = List.of(
+                    Component.translatable(on ? "gui.apothicpots.switch_on" : "gui.apothicpots.switch_off")
+                            .withStyle(on ? ChatFormatting.RED : ChatFormatting.DARK_GRAY),
+                    Component.translatable("gui.apothicpots.switch_click").withStyle(ChatFormatting.GRAY),
+                    Component.translatable("gui.apothicpots.switch_redstone").withStyle(ChatFormatting.GRAY));
+            g.renderComponentTooltip(Minecraft.getInstance().font, tip, mx, my);
+        }
+    }
     private static int top(BotanyPotScreen s) { return s.getGuiTop() + 4; }
 
     @SubscribeEvent
     public static void render(ScreenEvent.Render.Post event) {
         if (!(event.getScreen() instanceof BotanyPotScreen screen)) return;
         AbstractBotanyPotBlockEntity pot = pot(screen);
-        if (pot == null || !visible(screen, pot)) return;
+        if (pot == null) return;
+        if (hasLever(pot)) renderLever(event.getGuiGraphics(), screen, pot, event.getMouseX(), event.getMouseY());
+        if (!visible(screen, pot)) return;
         GuiGraphics g = event.getGuiGraphics();
         int x = left(screen), y = top(screen);
         int points = stored(pot);
@@ -106,7 +172,14 @@ public final class XpBar {
     public static void click(ScreenEvent.MouseButtonPressed.Pre event) {
         if (!(event.getScreen() instanceof BotanyPotScreen screen)) return;
         AbstractBotanyPotBlockEntity pot = pot(screen);
-        if (pot == null || !visible(screen, pot) || !inside(screen, event.getMouseX(), event.getMouseY())) return;
+        if (pot == null) return;
+        if (hasLever(pot) && insideLever(screen, event.getMouseX(), event.getMouseY())) {
+            event.setCanceled(true);
+            PacketDistributor.sendToServer(new Net.ToggleSwitch(pot.getBlockPos()));
+            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+            return;
+        }
+        if (!visible(screen, pot) || !inside(screen, event.getMouseX(), event.getMouseY())) return;
         event.setCanceled(true);
         if (stored(pot) <= 0) return;
         PacketDistributor.sendToServer(new Net.CollectXp(pot.getBlockPos()));

@@ -4,7 +4,7 @@
   "tooltip.apothicpots.rolls": "Loot rolls per cycle: %s",
   "tooltip.apothicpots.echoing": "Echoing: %s",
   "tooltip.apothicpots.burning": "Burning: drops come out cooked",
-  "tooltip.apothicpots.redstone": "Redstone control: needs power",
+  "tooltip.apothicpots.redstone": "Redstone control: lever or redstone signal",
   "tooltip.apothicpots.wrong_soil": "Needs soul sand or soul soil",
   "tooltip.apothicpots.progress": "Progress: %s%%",
   "tooltip.apothicpots.paused": "Paused",
@@ -16,5 +16,9 @@
   "jei.apothicpots.per_kill": "Average %s per kill",
   "jei.apothicpots.summary": "%s · %s kills · %s XP",
   "config.jade.plugin_apothicpots.spawner_pot": "Spawner Pot",
-  "tooltip.apothicpots.no_mob": "No mob: use a spawn egg on the pot"
+  "tooltip.apothicpots.no_mob": "No mob: use a spawn egg on the pot",
+  "gui.apothicpots.switch_on": "Redstone control: On",
+  "gui.apothicpots.switch_off": "Redstone control: Off",
+  "gui.apothicpots.switch_click": "Click to switch on or off",
+  "gui.apothicpots.switch_redstone": "A redstone signal switches it too"
 }

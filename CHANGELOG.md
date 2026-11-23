@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.0
+- Pots with a redstone-control spawner get a lever in the pot screen. Click it to switch the pot on or off.
+- An outside redstone signal (lever, wire, etc.) flips the same switch: signal on turns the pot on, signal off turns it off. You can still flip it by hand in between.
+- A switched-off pot keeps its spawner cage, with the mob frozen.
+
 ## 0.5.2
 - A spawner with no mob in a pot now says to use a spawn egg on the pot (pot screen tooltip, Jade and WTHIT).
 - A pot paused by redstone keeps showing its spawner cage. The mob inside stops spinning while paused.

@@ -25,7 +25,36 @@ public final class PotXp {
     public static final Supplier<AttachmentType<Integer>> XP = ATTACHMENTS.register("xp",
             () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).build());
 
+    /** Redstone-control pots: the on/off lever in the pot screen. */
+    public static final Supplier<AttachmentType<Boolean>> SWITCH = ATTACHMENTS.register("switch",
+            () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).build());
+    /** Last redstone signal seen, so a change in signal flips the lever. */
+    public static final Supplier<AttachmentType<Boolean>> LAST_SIGNAL = ATTACHMENTS.register("last_signal",
+            () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).build());
+
     private PotXp() {}
+
+    public static boolean switchOn(BlockEntity be) {
+        return be.getExistingData(SWITCH).orElse(false);
+    }
+
+    public static void setSwitch(BlockEntity be, boolean on) {
+        if (switchOn(be) == on) return;
+        be.setData(SWITCH, on);
+        be.setChanged();
+        if (be.getLevel() != null && !be.getLevel().isClientSide) {
+            be.getLevel().sendBlockUpdated(be.getBlockPos(), be.getBlockState(), be.getBlockState(), 3);
+        }
+    }
+
+    /** Server: a change in the outside redstone signal sets the lever to match. */
+    public static void syncSignal(BlockEntity be, boolean powered) {
+        boolean last = be.getExistingData(LAST_SIGNAL).orElse(false);
+        if (last == powered) return;
+        be.setData(LAST_SIGNAL, powered);
+        be.setChanged();
+        setSwitch(be, powered);
+    }
 
     public static void init(IEventBus modBus) {
         ATTACHMENTS.register(modBus);
