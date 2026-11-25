@@ -7,6 +7,7 @@ NeoForge 1.21.1 addon for Botany Pots and Apothic Spawners. Put a spawner in a B
 ## How it works
 - Silk touch a spawner (Apothic Spawners keeps its mob and stats on the item) and put it in a pot's crop slot.
 - Mekanism cardboard box works too: right-click a pot with a boxed spawner, or put it in the pot's crop slot, and the spawner comes out of the box into the pot. You get the empty box back. A boxed spawner fed in by a hopper stays boxed and still grows.
+- Right-click a spawner pot with an Apothic Spawners upgrade item (sugar, echo shard, campfire, etc.) to upgrade the spawner in it, same as a placed spawner.
 - Right-click a spawner pot with a spawn egg to change the mob, like a placed spawner. The spawner keeps its stats and the egg is used up.
 - Soil: soul sand or soul soil (item tag `apothicpots:spawner_soils`).
 - Each grow cycle is one "spawn": the mob's loot table is rolled as if a player killed it. No looting.

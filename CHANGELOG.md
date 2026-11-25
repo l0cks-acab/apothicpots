@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.1
+- Apothic Spawners upgrades work on spawners in pots. Right-click the pot with the upgrade item (sugar, fermented spider eye, echo shard, campfire, etc.) just like a placed spawner. Same limits, same items used up, and offhand recipes work too.
+
 ## 0.6.0
 - Pots with a redstone-control spawner get a lever in the pot screen. Click it to switch the pot on or off.
 - An outside redstone signal (lever, wire, etc.) flips the same switch: signal on turns the pot on, signal off turns it off. You can still flip it by hand in between.
